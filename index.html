@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projector Light</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+</head>
+
+<body>
+    <!-- Halaman Depan Start -->
+    <div class="flocus-screen">
+        <video autoplay loop muted playsinline class="bg-video">
+            <source src="assets/images/bg-video.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Logo di Pojok Kiri Atas -->
+        <div class="position-absolute top-0 start-0 p-4" style="z-index: 10;">
+            <h2 class="flocus-logo m-0" style="font-size: 1.5rem; font-weight: 700;">Projector Light <span
+                    class="small opacity-50 fw-light">by Sync-N</span></h2>
+        </div>
+
+        <!-- Quote di Pojok Kanan Atas (Sembunyi di HP biar gak numpuk) -->
+        <div class="position-absolute top-0 end-0 p-4 text-end d-none d-md-block" style="z-index: 10;">
+            <p class="flocus-quote mb-0" style="font-size: 0.9rem; opacity: 0.8; line-height: 1.4;">
+                "Life begins at the end<br />of your comfort zone"
+            </p>
+        </div>
+
+        <a href="#" class="text-decoration-none text-center center-content">
+            <div class="fade-in-up">
+                <h3 id="greeting" class="greeting-text"></h3>
+                <p class="sub-greeting">A Galactic Archive of Cinema.</p>
+                <h1 id="clock" class="clock-text">0:00</h1>
+
+                <p class="click-instruction mt-5">Click anywhere to enter</p>
+            </div>
+        </a>
+
+        <div class="corner-element bottom-left">
+            <div class="icon-btn"><i class="bi bi-music-note-beamed"></i></div>
+        </div>
+
+        <div class="corner-element bottom-right d-flex gap-2">
+            <div class="icon-btn active-icon"><i class="bi bi-film"></i></div>
+            <div class="icon-btn"><i class="bi bi-house-door"></i></div>
+            <div class="icon-btn"><i class="bi bi-gear"></i></div>
+        </div>
+    </div>
+    <!-- Halaman Depan End -->
+
+    <!-- ================= KOTAK POP-UP LOGIN & REGISTER ================= -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white"
+                style="background-color: #0a0a0a; border: 1px solid #333; border-radius: 15px;">
+                <div class="modal-body p-5">
+
+                    <!-- ====== FORM LOGIN (Muncul Pertama) ====== -->
+                    <div id="loginForm">
+                        <h4 class="fw-bold mb-4 text-center syne-font">Welcome Back</h4>
+                        <!-- Input Username Login -->
+                        <input type="text" id="loginUsername"
+                            class="form-control bg-dark text-white mb-3 border-secondary"
+                            placeholder="Enter your username">
+
+                        <!-- Input Password Login -->
+                        <input type="password" id="loginPassword"
+                            class="form-control bg-dark text-white mb-4 border-secondary"
+                            placeholder="Enter your password">
+
+                        <button class="btn w-100 rounded-pill py-2 mb-3"
+                            style="background-color: #5d3df3; color: white;" onclick="doLogin()">Login</button>
+                        <p class="text-center small text-muted m-0">New to the screening? <a href="javascript:void(0)"
+                                style="color: #5d3df3; text-decoration: none; font-weight: bold;"
+                                onclick="toggleForm('register')">Register here</a></p>
+                    </div>
+
+                    <!-- ====== FORM REGISTER (Awalnya Sembunyi) ====== -->
+                    <div id="registerForm" style="display: none;">
+                        <h4 class="fw-bold mb-4 text-center syne-font">Join the Cinema</h4>
+                        <!-- Input Full Name -->
+                        <input type="text" id="regName" class="form-control bg-dark text-white mb-3 border-secondary"
+                            placeholder="Type your name">
+
+                        <!-- Input Username Register -->
+                        <input type="text" id="regUser" class="form-control bg-dark text-white mb-3 border-secondary"
+                            placeholder="Create a unique username">
+
+                        <!-- Input Password Register -->
+                        <input type="password" id="regPass"
+                            class="form-control bg-dark text-white mb-4 border-secondary"
+                            placeholder="Min. 6 characters">
+
+                        <button class="btn w-100 rounded-pill py-2 mb-3"
+                            style="background-color: #5d3df3; color: white;" onclick="doRegister()">Initialize
+                            Access</button>
+                        <p class="text-center small text-muted m-0">Already have a ticket? <a href="javascript:void(0)"
+                                style="color: #5d3df3; text-decoration: none; font-weight: bold;"
+                                onclick="toggleForm('login')">Login</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =======================================================
+        // BAGIAN 1: JAM & UCAPAN (TETAP SAMA)
+        // =======================================================
+        function updateTimeAndGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("clock").textContent =
+                `${hours}:${displayMinutes}`;
+
+            let greeting = "Good night";
+            if (hours >= 5 && hours < 12) greeting = "Good morning";
+            else if (hours >= 12 && hours < 18) greeting = "Good afternoon";
+            else if (hours >= 18 && hours < 22) greeting = "Good evening";
+            document.getElementById("greeting").textContent = `${greeting}!`;
+        }
+        setInterval(updateTimeAndGreeting, 1000);
+        updateTimeAndGreeting();
+
+        // =======================================================
+        // BAGIAN 2: SISTEM LOGIN ANTI-BOBOL
+        // =======================================================
+
+        // Deklarasi Modal biar bisa dipanggil kapan aja
+        let loginModal;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Inisialisasi modalnya dulu
+            loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+
+            // Fungsi klik layar utama
+            document.body.onclick = function (event) {
+                // Cek apakah user sudah login?
+                let session = localStorage.getItem("activeSession");
+
+                if (session) {
+                    // JALUR VIP: Langsung masuk
+                    window.location.href = "dashboard.html";
+                } else {
+                    // CEK: Jangan sampai munculin modal kalau kita lagi klik di DALAM modalnya
+                    if (!event.target.closest(".modal")) {
+                        loginModal.show();
+                    }
+                }
+            };
+        });
+
+        // FUNGSI REGISTER
+        function doRegister() {
+            let nick = document.getElementById('regName').value.trim();
+            let user = document.getElementById('regUser').value.trim();
+            let pass = document.getElementById('regPass').value;
+
+            // 1. Cek apakah ada yang kosong
+            if (!nick || !user || !pass) {
+                alert("Please complete all fields to initialize your archive access.");
+                return;
+            }
+
+            // 2. Validasi Username (Hanya Huruf, Angka, dan Underscore)
+            // Regex ini artinya: ^(awal) [a-zA-Z0-9_] (karakter boleh) +(sampai akhir)
+            let usernamePattern = /^[a-zA-Z0-9_]+$/;
+            if (!usernamePattern.test(user)) {
+                alert("Username can only contain letters, numbers, and underscores (_). No spaces or symbols allowed!");
+                return;
+            }
+
+            // 3. Validasi Panjang Password (Min 6 Karakter)
+            if (pass.length < 6) {
+                alert("Security risk! Password must be at least 6 characters long.");
+                return;
+            }
+
+            // 4. Proses Simpan ke Database Local
+            let usersDB = JSON.parse(localStorage.getItem('projectorDB')) || {};
+            if (usersDB[user]) {
+                alert("This username is already claimed. Please choose another unique identity.");
+                return;
+            }
+
+            usersDB[user] = { nickname: nick, password: pass };
+            localStorage.setItem('projectorDB', JSON.stringify(usersDB));
+
+            alert("Access granted! Your credentials have been secured. Please log in to enter.");
+            toggleForm('login');
+        }
+        // FUNGSI LOGIN
+        function doLogin() {
+            let user = document.getElementById("loginUsername").value.trim();
+            let pass = document.getElementById("loginPassword").value;
+
+            let usersDB = JSON.parse(localStorage.getItem("projectorDB")) || {};
+
+            if (usersDB[user] && usersDB[user].password === pass) {
+                localStorage.setItem(
+                    "activeSession",
+                    JSON.stringify({
+                        username: user,
+                        nickname: usersDB[user].nickname,
+                    }),
+                );
+                window.location.href = "dashboard.html";
+            } else {
+                alert("Username atau Password salah! 🕵🏻‍♀️");
+            }
+        }
+
+        function toggleForm(type) {
+            document.getElementById("loginForm").style.display =
+                type === "login" ? "block" : "none";
+            document.getElementById("registerForm").style.display =
+                type === "register" ? "block" : "none";
+        }
+    </script>
+
+    <!-- ================= KOTAK POP-UP LOGIN & REGISTER ================= -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white" style="
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            ">
+                <div class="modal-body p-5">
+                    <!-- ====== BAGIAN 1: FORM LOGIN ====== -->
+                    <div id="loginForm">
+                        <h4 class="fw-bold mb-4 text-center" style="font-family: &quot;Syne&quot;, sans-serif">
+                            Welcome Back
+                        </h4>
+                        <input type="text" id="loginUsername"
+                            class="form-control bg-dark text-white mb-3 border-secondary" placeholder="Username" />
+                        <input type="password" id="loginPassword"
+                            class="form-control bg-dark text-white mb-4 border-secondary" placeholder="Password" />
+
+                        <button class="btn w-100 rounded-pill py-2 mb-3" style="background-color: #5d3df3; color: white"
+                            onclick="doLogin()">
+                            Login
+                        </button>
+                        <p class="text-center small text-muted m-0">
+                            New to the screening?
+                            <a href="#" style="
+                    color: #5d3df3;
+                    text-decoration: none;
+                    font-weight: bold;
+                    " onclick="toggleForm('register')">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- ====== BAGIAN 2: FORM REGISTER ====== -->
+                    <div id="registerForm" style="display: none">
+                        <!-- Awalnya disembunyiin -->
+                        <h4 class="fw-bold mb-4 text-center" style="font-family: &quot;Syne&quot;, sans-serif">
+                            Join the Cinema
+                        </h4>
+                        <input type="text" id="regNickname"
+                            class="form-control bg-dark text-white mb-3 border-secondary"
+                            placeholder="Nickname (Display Name)" />
+                        <input type="text" id="regUsername"
+                            class="form-control bg-dark text-white mb-3 border-secondary"
+                            placeholder="Username (Must be unique)" />
+                        <input type="password" id="regPassword"
+                            class="form-control bg-dark text-white mb-4 border-secondary"
+                            placeholder="Create Password" />
+
+                        <button class="btn w-100 rounded-pill py-2 mb-3" style="background-color: #5d3df3; color: white"
+                            onclick="doRegister()">
+                            Create Account
+                        </button>
+                        <p class="text-center small text-muted m-0">
+                            Already have a ticket?
+                            <a href="#" style="
+                    color: #5d3df3;
+                    text-decoration: none;
+                    font-weight: bold;
+                    " onclick="toggleForm('login')">Login</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
