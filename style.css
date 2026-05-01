@@ -1,0 +1,450 @@
+/* INDEX START */
+/* --- RESET DASAR --- */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    /* Font gaya flocus */
+    color: #ffffff;
+    overflow: hidden;
+    /* Biar nggak bisa digeser ke bawah */
+}
+
+/* --- BACKGROUND LAYAR PENUH --- */
+.flocus-screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    /* Hapus tulisan background-color dan background-image yang lama dari sini */
+}
+
+/* --- PENGATURAN VIDEO --- */
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Biar video nge-pas di layar dan ga gepeng */
+    z-index: 1;
+    /* Ditaruh di lapisan paling belakang */
+}
+
+/* --- LAPISAN GELAP (OVERLAY) --- */
+/* Ini biar videonya agak digelapin sedikit, jadi tulisan putih tetep keliatan */
+.flocus-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+/* --- PENGATURAN SUDUT LAYAR --- */
+.corner-element {
+    position: absolute;
+    padding: 35px 40px;
+    /* Buat jarak elemen dari ujung layar */
+    z-index: 10;
+}
+
+.top-left {
+    top: 0;
+    left: 0;
+}
+
+.top-right {
+    top: 0;
+    right: 0;
+    text-align: right;
+}
+
+.bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/* --- TYPOGRAPHY (Teks) --- */
+.flocus-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.flocus-logo span {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    opacity: 0.7;
+}
+
+.flocus-quote {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* --- BAGIAN TENGAH (Jam & Ucapan) --- */
+.center-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Elemen di tengah */
+    z-index: 5;
+    width: 100%;
+}
+
+.greeting-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.sub-greeting {
+    font-size: 1.1rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.clock-text {
+    font-size: 9rem;
+    /* Ukuran jam */
+    font-weight: 700;
+    letter-spacing: -4px;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* --- TOMBOL IKON DI BAWAH --- */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Kotak transparan agak gelap */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    /* Efek blur kaca ala UI modern */
+}
+
+.icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.active-icon {
+    background-color: #8b5cf6;
+}
+
+/* --- ANIMASI MASUK (ENTRANCE) --- */
+.fade-in-up {
+    animation: fadeInUp 1.5s ease-out forwards;
+    opacity: 0;
+    /* Start dari transisi hilang */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        /* Muncul dari bawah  */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- TULISAN KEDAP-KEDIP --- */
+.click-instruction {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.6);
+    animation: blinker 2s linear infinite;
+    font-weight: 300;
+    margin-top:40px !important;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.1;
+    }
+
+    /* Biar redup di tengah animasi */
+}
+
+/* Biar link-nya ga ada garis bawah & warnanya tetep putih */
+.center-content {
+    text-decoration: none !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+/* Pengaturan HP */
+@media (max-width: 576px) {
+
+    /* Logo Projector Light di pojok kiri atas */
+    .flocus-logo {
+        font-size: 1.2rem !important;
+        margin-left: 10px;
+    }
+
+    /* Quote di pojok kanan atas - kita sembunyikan atau perkecil di HP */
+    .flocus-quote {
+        font-size: 0.7rem !important;
+        max-width: 150px;
+        text-align: right;
+    }
+
+    /* Video background tetap penuh tapi object-fit cover */
+    .bg-video {
+        object-fit: cover;
+    }
+
+    /* Konten utama di tengah (tombol login/start) */
+    .center-content {
+        width: 90% !important;
+    }
+}
+/* INDEX END */
+
+/* CSS DASHBOARD START */
+body.dashboard-page {
+    background-color: #050505;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.syne-font {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -1px;
+}
+
+.bg-purple {
+    background-color: #5d3df3 !important;
+}
+
+.text-purple {
+    color: #5d3df3 !important;
+}
+
+.btn-purple {
+    background-color: #5d3df3;
+    color: white;
+    border: none;
+}
+
+.btn-purple:hover {
+    background-color: #4a2ec2;
+    color: white;
+}
+
+.sidebar {
+    background-color: #0a0a0a;
+    border-right: 1px solid #1a1a1a;
+}
+
+.main-content {
+    background-color: #050505;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.right-panel {
+    background-color: #0a0a0a;
+    border-left: 1px solid #1a1a1a;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.brand-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+}
+
+.brand-logo span {
+    font-weight: 300;
+    opacity: 0.5;
+    font-size: 1rem;
+    margin-left: 5px;
+}
+
+.nav-link {
+    color: #888;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: rgba(93, 61, 243, 0.15);
+    color: #5d3df3;
+}
+
+#trendingCarousel {
+    height: 300px;
+    background-color: #111;
+}
+
+.movie-card {
+    height: 250px;
+    background-color: #111;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0s;
+}
+
+.movie-info {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    transition: opacity 0.3s;
+}
+
+.hover-overlay {
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.movie-card:hover .movie-info {
+    opacity: 0;
+}
+
+.movie-card:hover .hover-overlay {
+    opacity: 1;
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* --- PENGATURAN SEARCH BAR --- */
+.custom-search-input {
+    background-color: #1a1a1a !important;
+    /* Warna dasar kapsul agak terang dari background */
+    padding-left: 2.8rem !important;
+    /* Biar tulisan gak nabrak icon kaca pembesar */
+}
+
+/* Mengatur warna tulisan bayangan (placeholder) */
+.custom-search-input::placeholder {
+    color: #666 !important;
+    font-style: italic;
+}
+
+/* Efek pas kotak search diklik buat ngetik */
+.custom-search-input:focus {
+    background-color: #222 !important;
+    color: white;
+    /* Ngasih cahaya ungu tipis di pinggiran kotaknya */
+    box-shadow: 0 0 0 0.15rem rgba(93, 61, 243, 0.5) !important;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.9rem;
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Penyesuaian khusus layar HP/Tablet */
+@media (max-width: 768px) {
+
+    /* 1. Sidebar: Hilangkan border samping, ganti jadi border bawah */
+    .sidebar {
+        border-right: none !important;
+        border-bottom: 1px solid #333;
+        padding-bottom: 20px !important;
+        margin-bottom: 20px;
+    }
+
+    /* 2. Banner: Tingginya ga terlalu besar biar ga menuhi layar */
+    .banner-container {
+        height: 200px !important;
+    }
+
+    /* 3. Teks: Perkecil ukuran judul biar gak numpuk */
+    h1,
+    h2,
+    .display-4 {
+        font-size: 1.5rem !important;
+    }
+
+    /* 4. Padding: Perkecil jarak kanan-kiri biar konten lebih luas */
+    .right-panel {
+        padding: 15px !important;
+    }
+
+    /* 5. Search Box & Profile: Pastikan sejajar dan gak gepeng */
+    .search-box {
+        width: 100% !important;
+    }
+}
